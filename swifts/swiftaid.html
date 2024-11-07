@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift Aid</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Fullscreen center styling for the video container */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            z-index: 10;
+        }
+
+        /* Video styling */
+        video {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+
+        /* Centering the form container */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Video Section -->
+    <div class="video-container" id="video-container">
+        <video autoplay muted id="intro-video">
+            <source src="Swift Aid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Form Container (Initially Hidden) -->
+    <div class="container" id="form-container" style="display: none;">
+        <div class="form-box">
+            <h1>Swift Aid</h1>
+
+            <!-- Sign In Form -->
+            <form id="signin-form" action="login.php" method="POST">
+                <div class="input-group">
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="signin-password" name="password" placeholder="Password" required>
+                        <i class="fa-solid fa-eye" id="toggle-signin-password" style="cursor: pointer;"></i>
+                    </div>
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="show-signin-password">
+                        <label for="show-signin-password">Show Password</label>
+                    </div>
+                </div>
+                <div class="btn-field">
+                    <button type="submit">Sign In</button>
+                </div>
+                <p class="toggle-link">Don't have an account? <a href="#" id="toggle-to-signup">Sign Up</a></p>
+            </form>
+
+            <!-- Sign Up Form (Initially Hidden) -->
+            <form id="signup-form" action="registration.php" method="POST" style="display: none;">
+                <h2>Create Account</h2>
+                <div class="input-group">
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="fullname" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-map-marker-alt"></i>
+                        <input type="text" name="location" placeholder="Location" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="tel" name="contact" placeholder="Contact Number" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="signup-password" name="password" placeholder="Password" required>
+                        <i class="fa-solid fa-eye" id="toggle-signup-password" style="cursor: pointer;"></i>
+                    </div>
+                    <div class="checkbox-field">
+                        <input type="checkbox" id="show-signup-password">
+                        <label for="show-signup-password">Show Password</label>
+                    </div>
+                </div>
+                <div class="btn-field">
+                    <button type="submit">Sign Up</button>
+                </div>
+                <p class="toggle-link">Already have an account? <a href="#" id="toggle-to-signin">Sign In</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('intro-video');
+        const videoContainer = document.getElementById('video-container');
+        const formContainer = document.getElementById('form-container');
+
+        // Show form after video ends
+        video.addEventListener('ended', () => {
+            videoContainer.style.display = 'none';
+            formContainer.style.display = 'block';
+        });
+
+        // Form toggle logic
+        const signinForm = document.getElementById('signin-form');
+        const signupForm = document.getElementById('signup-form');
+        const toggleToSignup = document.getElementById('toggle-to-signup');
+        const toggleToSignin = document.getElementById('toggle-to-signin');
+
+        toggleToSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            signinForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        });
+
+        toggleToSignin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupForm.style.display = 'none';
+            signinForm.style.display = 'block';
+        });
+
+        // Password visibility toggle for Sign In
+        const signinPassword = document.getElementById('signin-password');
+        const showSigninPassword = document.getElementById('show-signin-password');
+        showSigninPassword.addEventListener('change', () => {
+            signinPassword.type = showSigninPassword.checked ? 'text' : 'password';
+        });
+
+        // Password visibility toggle for Sign Up
+        const signupPassword = document.getElementById('signup-password');
+        const showSignupPassword = document.getElementById('show-signup-password');
+        showSignupPassword.addEventListener('change', () => {
+            signupPassword.type = showSignupPassword.checked ? 'text' : 'password';
+        });
+    </script>
+</body>
+
+</html>
