@@ -159,9 +159,35 @@ if (!isset($_SESSION['user_id'])) {
                 }
                 ?>
             </div>
+            <button onclick="openProfileSettings()" class="profile-settings-btn">Profile Settings</button>
             <button onclick="playLogoutVideo()" class="logout-btn">Logout</button>
         </div>
     </div>
+
+    <!-- Profile Settings Modal -->
+    <div class="modal" id="profile-settings-modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeProfileSettings()">&times;</span>
+        <h2>Profile Settings</h2>
+        <form action="update_profile.php" method="POST">
+            <label for="full_name">Full Name:</label>
+            <input type="text" id="full_name" name="full_name" value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : ''; ?>" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" required>
+
+            <label for="contact">Contact:</label>
+            <input type="tel" id="contact" name="contact" value="<?php echo isset($_SESSION['contact']) ? $_SESSION['contact'] : ''; ?>" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="<?php echo isset($_SESSION['address']) ? $_SESSION['address'] : ''; ?>" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+
 
     <!-- Logout Video Container -->
     <div id="logout-video-container">
@@ -192,11 +218,22 @@ if (!isset($_SESSION['user_id'])) {
             document.getElementById("info-modal").style.display = "none";
         }
 
-        // Close modal if clicking outside of it
+        function openProfileSettings() {
+            document.getElementById("profile-settings-modal").style.display = "flex";
+        }
+
+        function closeProfileSettings() {
+            document.getElementById("profile-settings-modal").style.display = "none";
+        }
+
+        // Close modals if clicking outside of them
         window.onclick = function(event) {
-            const modal = document.getElementById("info-modal");
-            if (event.target === modal) {
-                modal.style.display = "none";
+            const infoModal = document.getElementById("info-modal");
+            const profileModal = document.getElementById("profile-settings-modal");
+            if (event.target === infoModal) {
+                infoModal.style.display = "none";
+            } else if (event.target === profileModal) {
+                profileModal.style.display = "none";
             }
         }
 
