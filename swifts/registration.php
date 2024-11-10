@@ -5,12 +5,12 @@ session_start(); // Start the session
 require 'db_connect.php';  // Ensure this path is correct
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
-    $fullname = $_POST['fullname'];
-    $email = $_POST['email'];
-    $location = $_POST['location'];
-    $contact = $_POST['contact'];
-    $password = $_POST['password'];
+    // Get form data and sanitize
+    $fullname = htmlspecialchars(trim($_POST['fullname']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $location = htmlspecialchars(trim($_POST['location']));
+    $contact = htmlspecialchars(trim($_POST['contact']));
+    $password = htmlspecialchars(trim($_POST['password']));
 
     // Validate the input (ensure no fields are empty)
     if (empty($fullname) || empty($email) || empty($location) || empty($contact) || empty($password)) {
@@ -42,10 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $insert_stmt->bind_param("sssss", $fullname, $email, $location, $contact, $hashed_password);
 
             if ($insert_stmt->execute()) {
-                // Registration successful, trigger success modal
+                // Registration successful, store the user details in session
+                $_SESSION['user_id'] = $conn->insert_id;  // Store user ID
+                $_SESSION['name'] = $fullname;            // Store full name
+                $_SESSION['email'] = $email;              // Store email
+                $_SESSION['contact'] = $contact;          // Store contact
+                $_SESSION['address'] = $location;         // Store location
+
+                // Trigger success modal
                 echo "<script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        document.getElementById('successModal').style.display = 'block';
+                        document.getElementById('successModal').style.display = 'flex';
                     });
                 </script>";
             } else {
@@ -60,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
