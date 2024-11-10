@@ -18,13 +18,12 @@ if (!isset($_SESSION['user_id'])) {
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         /* General Dashboard Styling */
-        
         body {
-        background-image: url(emergency.png);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover; 
+            background-image: url(emergency.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover; 
         } 
         .dashboard-container {
             display: flex;
@@ -140,20 +139,20 @@ if (!isset($_SESSION['user_id'])) {
                 <!-- Emergency Hotline icons -->
                 <?php
                 $icons = [
-                    ["src" => "cross.png", "alt" => "Ambulance", "title" => "Ambulance"],
-                    ["src" => "fire.jpg", "alt" => "Fire Department", "title" => "Fire Department"],
-                    ["src" => "police.jpg", "alt" => "Police", "title" => "Police"],
-                    ["src" => "disaster.png", "alt" => "Disaster Response", "title" => "Disaster Response"],
-                    ["src" => "posion.png", "alt" => "Poison Control", "title" => "Poison Control"],
-                    ["src" => "coast.png", "alt" => "Coast Guard", "title" => "Coast Guard"],
-                    ["src" => "electric.jpg", "alt" => "Electricity Emergency", "title" => "Electricity Emergency"],
-                    ["src" => "gas.jpg", "alt" => "Gas Leak", "title" => "Gas Leak"],
-                    ["src" => "water.png", "alt" => "Water Supply", "title" => "Water Supply"],
-                    ["src" => "search.jpg", "alt" => "Search & Rescue", "title" => "Search & Rescue"]
+                    ["src" => "cross.png", "alt" => "Ambulance", "title" => "Ambulance", "info" => "Provides emergency medical assistance and transport to healthcare facilities.", "number" => "+63 910 339 1561"],
+                    ["src" => "fire.jpg", "alt" => "Fire Department", "title" => "Fire Department", "info" => "Handles fire outbreaks, rescue operations, and related emergencies.", "number" => "+63 910 767 5366"],
+                    ["src" => "police.jpg", "alt" => "Police", "title" => "Police", "info" => "Maintains law and order, and responds to crime-related incidents.", "number" => "+63 967 835 1942"],
+                    ["src" => "disaster.png", "alt" => "Disaster Response", "title" => "Disaster Response", "info" => "Manages response and relief in case of natural or man-made disasters.", "number" => "+63 907 089 0949"],
+                    ["src" => "posion.png", "alt" => "Poison Control", "title" => "Poison Control", "info" => "Provides guidance for poison-related emergencies and prevention advice.", "number" => "+63 909 413 5480"],
+                    ["src" => "coast.png", "alt" => "Coast Guard", "title" => "Coast Guard", "info" => "Responsible for maritime safety, security, and search and rescue at sea.", "number" => "+63 994 226 0905"],
+                    ["src" => "electric.jpg", "alt" => "Electricity Emergency", "title" => "Electricity Emergency", "info" => "Responds to electrical hazards, power outages, and related issues.", "number" => "16211"],
+                    ["src" => "gas.jpg", "alt" => "Gas Leak", "title" => "Gas Leak", "info" => "Handles emergency situations involving gas leaks or related dangers.", "number" => "527-0711"],
+                    ["src" => "water.png", "alt" => "Water Supply", "title" => "Water Supply", "info" => "Manages water supply issues, including leaks, shortages, and contamination.", "number" => "1627"],
+                    ["src" => "search.jpg", "alt" => "Search & Rescue", "title" => "Search & Rescue", "info" => "Conducts search and rescue operations in various emergencies.", "number" => "911"]
                 ];
                 foreach ($icons as $icon) {
                     echo "
-                    <div class='icon' onclick='openModal(\"{$icon['title']}\")'>
+                    <div class='icon' onclick='openModal(\"{$icon['title']}\", \"{$icon['info']}\", \"{$icon['number']}\")'>
                         <img src='{$icon['src']}' alt='{$icon['alt']}'>
                         <p>{$icon['title']}</p>
                     </div>";
@@ -174,16 +173,18 @@ if (!isset($_SESSION['user_id'])) {
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h2 id="modal-title"></h2>
-            <p>Choose an action below:</p>
+            <p id="modal-info"></p>
+            <p><strong>Hotline:</strong> <span id="modal-number"></span></p>
             <button onclick="alert('Calling Now...')">Call Now</button>
-            <button onclick="alert('Viewing Info...')">View Info</button>
-            <button onclick="alert('Send Emergency Message')">Send Emergency Message</button>
+            <button onclick="closeModal()">Close</button>
         </div>
     </div>
 
     <script>
-        function openModal(title) {
+        function openModal(title, info, number) {
             document.getElementById("modal-title").innerText = title;
+            document.getElementById("modal-info").innerText = info;
+            document.getElementById("modal-number").innerText = number;
             document.getElementById("info-modal").style.display = "flex";
         }
 
@@ -198,19 +199,19 @@ if (!isset($_SESSION['user_id'])) {
                 modal.style.display = "none";
             }
         }
+
         function playLogoutVideo() {
-    document.getElementById("dashboard").style.display = "none";
-    document.getElementById("logout-video-container").style.display = "flex";
-    const video = document.getElementById("logout-video");
+            document.getElementById("dashboard").style.display = "none";
+            document.getElementById("logout-video-container").style.display = "flex";
+            const video = document.getElementById("logout-video");
 
-    video.play();
+            video.play();
 
-    // Redirect to logout.php after the video ends
-    video.onended = function() {
-        window.location.href = "logout.php"; // Redirect to logout script
-    };
-}
-
+            // Redirect to logout.php after the video ends
+            video.onended = function() {
+                window.location.href = "logout.php"; // Redirect to logout script
+            };
+        }
     </script>
 </body>
 </html>
